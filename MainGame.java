@@ -18,7 +18,6 @@ import javax.swing.JTextPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
-
 public class MainGame implements ActionListener{
 
 	private JFrame frame;
@@ -158,14 +157,17 @@ public class MainGame implements ActionListener{
 			try {
 				loadArrayList();
 				playerCardOne = pickCard(arr);
-				playerSlot1.setIcon(new ImageIcon(ImageIO.read( new File("bin/"+playerCardOne+".png"))));
+				playerSlot1.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+playerCardOne+".png"))));
+				removeCard();
 				playerCardTwo = pickCard(arr);
-				playerSlot2.setIcon(new ImageIcon(ImageIO.read( new File("bin/"+playerCardTwo+".png"))));
+				playerSlot2.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+playerCardTwo+".png"))));
+				removeCard();
 				cpuCardOne = pickCard(arr);
-				cpuSlot1.setIcon(new ImageIcon(ImageIO.read( new File("bin/blank.png"))));
+				cpuSlot1.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/blank.png"))));
+				removeCard();
 				cpuCardTwo = pickCard(arr);
-				cpuSlot2.setIcon(new ImageIcon(ImageIO.read( new File("bin/"+cpuCardTwo+".png"))));
-				
+				cpuSlot2.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+cpuCardTwo+".png"))));
+				removeCard();
 				btnHit.setBounds(295,700,97,25);
 				btnStand.setBounds(400,700,97,25);
 				
@@ -188,8 +190,15 @@ public class MainGame implements ActionListener{
 			arr.add("H"+i);
 		}
 	}
+	
+	int cardIndex;
+	
 	private String pickCard(ArrayList<String> array){
-		int i=(int)(Math.random()*52);
-		return array.get(i);
+		cardIndex=(int)(Math.random()*arr.size());
+		return array.get(cardIndex);
+	}
+	private void removeCard(){
+		arr.remove(cardIndex);
+		System.out.println(arr);
 	}
 }
