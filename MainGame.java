@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -38,6 +39,8 @@ public class MainGame implements ActionListener{
 	private JLabel cpuSlot5;
 	private JLabel cpuSlot6;
 	private JLabel cpuSlot7;
+	private JLabel playerTotLbl;
+	private String totLbl = "Total: ";
 	
 	/**
 	 * Create the application.
@@ -71,6 +74,7 @@ public class MainGame implements ActionListener{
 		btnHit = new JButton("Hit");
 		btnHit.setBounds(900, 900, 97, 25);
 		frame.getContentPane().add(btnHit);
+		btnHit.addActionListener(this);
 		
 		btnStand = new JButton("Stand");
 		btnStand.setBounds(900, 930, 97, 25);
@@ -132,6 +136,10 @@ public class MainGame implements ActionListener{
 		cpuSlot7.setBounds(40, 175, 95, 130);
 		frame.getContentPane().add(cpuSlot7);
 		
+		playerTotLbl = new JLabel(totLbl);
+		playerTotLbl.setBounds(12, 560, 112, 42);
+		frame.getContentPane().add(playerTotLbl);
+		
 		back();
 		
 	}
@@ -139,16 +147,24 @@ public class MainGame implements ActionListener{
 		GameTable one = new GameTable();
 		one.setBounds(0, 13, 782, 731);
 		frame.getContentPane().add(one);
-		
-		
 	}
 	
 	
 	private String playerCardOne;
 	private String playerCardTwo;
+	private String playerCardThree;
+	private String playerCardFour;
+	private String playerCardFive;
+	private String playerCardSix;
+	private String playerCardSeven;
 	private String cpuCardOne;
 	private String cpuCardTwo;
 	private ArrayList<String> arr = new ArrayList<String>();
+	private ArrayList<Integer> playerHand = new ArrayList<Integer>();
+	private ArrayList<Integer> cpuHand = new ArrayList<Integer>();
+	private int hitCounter = 0;
+	private Evaluator eval;
+	private boolean hasHit = false;
 	
 	
 	public void actionPerformed(ActionEvent e) {
@@ -158,25 +174,92 @@ public class MainGame implements ActionListener{
 				loadArrayList();
 				playerCardOne = pickCard(arr);
 				playerSlot1.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+playerCardOne+".png"))));
+				convertCard(playerCardOne,0);
 				removeCard();
 				playerCardTwo = pickCard(arr);
 				playerSlot2.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+playerCardTwo+".png"))));
+				convertCard(playerCardTwo,0);
 				removeCard();
 				cpuCardOne = pickCard(arr);
 				cpuSlot1.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/blank.png"))));
+				convertCard(cpuCardOne,1);
 				removeCard();
 				cpuCardTwo = pickCard(arr);
 				cpuSlot2.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+cpuCardTwo+".png"))));
+				convertCard(cpuCardTwo,1);
 				removeCard();
+				//test
+				System.out.println(cpuHand);
+				System.out.println(playerHand);
+				eval = new Evaluator(playerHand,cpuHand);
+				eval.evaluate();
+				updateTotLbl(0);
+				
+				playerSlot3.setIcon(null);
+				playerSlot4.setIcon(null);
+				playerSlot5.setIcon(null);
+				playerSlot6.setIcon(null);
+				playerSlot7.setIcon(null);
+				cpuSlot3.setIcon(null);
+				cpuSlot4.setIcon(null);
+				cpuSlot5.setIcon(null);
+				cpuSlot6.setIcon(null);
+				cpuSlot7.setIcon(null);
+				
+				hitCounter = 0;
 				btnHit.setBounds(295,700,97,25);
 				btnStand.setBounds(400,700,97,25);
 				
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			} 
+		}else if(e.getSource()==btnHit){
+			hitCounter++;
+			try{
+				if(hitCounter==1){
+					playerCardThree = pickCard(arr);
+					playerSlot3.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+playerCardThree+".png"))));
+					convertCard(playerCardThree,0);
+					eval.updateValue(playerHand, 0);
+					removeCard();
+					updateTotLbl(0);
+					hasHit = true;
+				}else if(hitCounter==2){
+					playerCardFour = pickCard(arr);
+					playerSlot4.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+playerCardFour+".png"))));
+					convertCard(playerCardFour,0);
+					eval.updateValue(playerHand, 0);
+					removeCard();
+					updateTotLbl(0);
+				}else if(hitCounter==3){
+					playerCardFive = pickCard(arr);
+					playerSlot5.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+playerCardFive+".png"))));
+					convertCard(playerCardFive,0);
+					eval.updateValue(playerHand, 0);
+					removeCard();
+					updateTotLbl(0);
+				}else if(hitCounter==4){
+					playerCardSix = pickCard(arr);
+					playerSlot6.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+playerCardSix+".png"))));
+					convertCard(playerCardSix,0);
+					eval.updateValue(playerHand, 0);
+					removeCard();
+					updateTotLbl(0);
+				}else if(hitCounter==5){
+					playerCardSeven = pickCard(arr);
+					playerSlot7.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+playerCardSeven+".png"))));
+					convertCard(playerCardSeven,0);
+					eval.updateValue(playerHand, 0);
+					removeCard();
+					updateTotLbl(0);
+				}
+			}catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 	public void loadArrayList(){
+		arr.clear();
 		for(int i=1;i<=13;i++){
 			arr.add("C"+i);
 		}
@@ -189,6 +272,8 @@ public class MainGame implements ActionListener{
 		for(int i=1;i<=13;i++){
 			arr.add("H"+i);
 		}
+		playerHand.clear();
+		cpuHand.clear();
 	}
 	
 	int cardIndex;
@@ -198,7 +283,35 @@ public class MainGame implements ActionListener{
 		return array.get(cardIndex);
 	}
 	private void removeCard(){
-		arr.remove(cardIndex);
-		System.out.println(arr);
+		String a = arr.remove(cardIndex);
+	}
+	private void convertCard(String card,int turn){
+		String cardString = card.substring(1,card.length());
+		Integer cardNumber = Integer.valueOf(cardString);
+		if(turn==0){
+			playerHand.add(cardNumber);
+		}else{
+			cpuHand.add(cardNumber);
+		}
+	}
+	
+	private boolean blackJack = false;
+	
+	private void updateTotLbl(int turn){
+		if(turn==0){
+			String total=eval.getPlayerTotal(0)+" / ";
+			for(int i=1;i<5;i++){
+				if(eval.getPlayerTotal(i)>0 && eval.getPlayerTotal(i)<22){
+					total = total+eval.getPlayerTotal(i)+" / ";
+				}
+			}
+			total = total.substring(0,total.length()-2);
+			if(!hasHit && eval.getPlayerTotal(1)==21){
+				total = "21";
+				blackJack = true;
+			}
+			System.out.println(total);
+			playerTotLbl.setText(totLbl+total);
+		}
 	}
 }
