@@ -125,10 +125,26 @@ public class Evaluator {
 		}
 		evaluate();
 	}
+	public boolean blackJack(int i){
+		if(i==0){
+			for(int j=0;j<5;j++){
+				if(playerTotal[j]==21){
+					return true;
+				}
+			}
+		}else if(i==1){
+			for(int j=0;j<5;j++){
+				if(cpuTotal[j]==21){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	public int getPlayerTotal(int i){
 		return playerTotal[i];
 	}
-//	public int[] getCpuTotal(){
-//		return cpuTotal;
-//	}
+	public int getCpuTotal(int i){
+		return cpuTotal[i];
+	}
 }
