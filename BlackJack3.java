@@ -60,7 +60,7 @@ public class BlackJack3 implements ActionListener{
 		btnQuit = new JButton("Quit");
 		frame.getContentPane().add(btnQuit);
 		
-		ImageIcon blackJLogo = new ImageIcon("bin/pic.png");
+		ImageIcon blackJLogo = new ImageIcon("src/graphics/pic.png");
 		JLabel iconLabel = new JLabel(blackJLogo);
 		frame.add(iconLabel);
 		
