@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 
 public class MainGame implements ActionListener{
 
@@ -39,9 +40,10 @@ public class MainGame implements ActionListener{
 	private JLabel cpuSlot5;
 	private JLabel cpuSlot6;
 	private JLabel cpuSlot7;
+	JLabel cpuTurn;
 	private JLabel playerTotLbl;
 	private String totLbl = "Total: ";
-	
+
 	/**
 	 * Create the application.
 	 */
@@ -59,55 +61,56 @@ public class MainGame implements ActionListener{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
-	
+
 		JTextPane gamePanel = new JTextPane();
 		gamePanel.setBounds(0, 0, 782, 22);
 		frame.getContentPane().add(gamePanel);
 
 		frame.setVisible(true);
-		
+
 		btnNewGame = new JButton("New Game");
 		btnNewGame.setBounds(340, 340, 97, 25);
 		frame.getContentPane().add(btnNewGame);
 		btnNewGame.addActionListener(this);
-		
+
 		btnHit = new JButton("Hit");
 		btnHit.setBounds(900, 900, 97, 25);
 		frame.getContentPane().add(btnHit);
 		btnHit.addActionListener(this);
-		
+
 		btnStand = new JButton("Stand");
 		btnStand.setBounds(900, 930, 97, 25);
 		frame.getContentPane().add(btnStand);
-		
+		btnStand.addActionListener(this);
+
 		playerSlot1 = new JLabel("");
 		playerSlot1.setBounds(340,400,95,130);
 		frame.getContentPane().add(playerSlot1);
-		
+
 		playerSlot2= new JLabel("");
 		playerSlot2.setBounds(440, 400, 95, 130);
 		frame.getContentPane().add(playerSlot2);
-		
+
 		playerSlot3 = new JLabel("");
 		playerSlot3.setBounds(240, 400, 95, 130);
 		frame.getContentPane().add(playerSlot3);
-		
+
 		playerSlot4 = new JLabel("");
 		playerSlot4.setBounds(540, 400, 95, 130);
 		frame.getContentPane().add(playerSlot4);
-		
+
 		playerSlot5 = new JLabel("");
 		playerSlot5.setBounds(140, 400, 95, 130);
 		frame.getContentPane().add(playerSlot5);
-		
+
 		playerSlot6 = new JLabel("");
 		playerSlot6.setBounds(640, 400, 95, 130);
 		frame.getContentPane().add(playerSlot6);
-		
+
 		playerSlot7 = new JLabel("");
 		playerSlot7.setBounds(40, 400, 95, 130);
 		frame.getContentPane().add(playerSlot7);
-		
+
 		cpuSlot1 = new JLabel("");
 		cpuSlot1.setBounds(340, 175, 90, 130);
 		frame.getContentPane().add(cpuSlot1);
@@ -115,41 +118,46 @@ public class MainGame implements ActionListener{
 		cpuSlot2 = new JLabel("");
 		cpuSlot2.setBounds(440, 175, 90, 130);
 		frame.getContentPane().add(cpuSlot2);
-		
+
 		cpuSlot3 = new JLabel("");
 		cpuSlot3.setBounds(240, 175, 95, 130);
 		frame.getContentPane().add(cpuSlot3);
-		
+
 		cpuSlot4 = new JLabel("");
 		cpuSlot4.setBounds(540, 175, 95, 130);
 		frame.getContentPane().add(cpuSlot4);
-		
+
 		cpuSlot5 = new JLabel("");
 		cpuSlot5.setBounds(140, 175, 95, 130);
 		frame.getContentPane().add(cpuSlot5);
-		
+
 		cpuSlot6 = new JLabel("");
 		cpuSlot6.setBounds(640, 175, 95, 130);
 		frame.getContentPane().add(cpuSlot6);
-		
+
 		cpuSlot7 = new JLabel("");
 		cpuSlot7.setBounds(40, 175, 95, 130);
 		frame.getContentPane().add(cpuSlot7);
-		
-		playerTotLbl = new JLabel(totLbl);
+
+		playerTotLbl = new JLabel();
 		playerTotLbl.setBounds(12, 560, 112, 42);
 		frame.getContentPane().add(playerTotLbl);
-		
+
+		cpuTurn = new JLabel("You chose to stand, CPU's turn");
+		cpuTurn.setBounds(900, 960, 181, 42);
+		frame.getContentPane().add(cpuTurn);
+
 		back();
-		
+
 	}
 	public void back(){
+
 		GameTable one = new GameTable();
 		one.setBounds(0, 13, 782, 731);
 		frame.getContentPane().add(one);
 	}
-	
-	
+
+
 	private String playerCardOne;
 	private String playerCardTwo;
 	private String playerCardThree;
@@ -163,10 +171,8 @@ public class MainGame implements ActionListener{
 	private ArrayList<Integer> playerHand = new ArrayList<Integer>();
 	private ArrayList<Integer> cpuHand = new ArrayList<Integer>();
 	private int hitCounter = 0;
-	private Evaluator eval;
-	private boolean hasHit = false;
-	
-	
+	private Evaluator eval;	
+
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btnNewGame){
 			System.out.println("clicked");
@@ -188,13 +194,14 @@ public class MainGame implements ActionListener{
 				cpuSlot2.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+cpuCardTwo+".png"))));
 				convertCard(cpuCardTwo,1);
 				removeCard();
+
 				//test
 				System.out.println(cpuHand);
 				System.out.println(playerHand);
 				eval = new Evaluator(playerHand,cpuHand);
 				eval.evaluate();
 				updateTotLbl(0);
-				
+
 				playerSlot3.setIcon(null);
 				playerSlot4.setIcon(null);
 				playerSlot5.setIcon(null);
@@ -205,11 +212,12 @@ public class MainGame implements ActionListener{
 				cpuSlot5.setIcon(null);
 				cpuSlot6.setIcon(null);
 				cpuSlot7.setIcon(null);
-				
+
+
 				hitCounter = 0;
 				btnHit.setBounds(295,700,97,25);
 				btnStand.setBounds(400,700,97,25);
-				
+
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			} 
@@ -223,7 +231,6 @@ public class MainGame implements ActionListener{
 					eval.updateValue(playerHand, 0);
 					removeCard();
 					updateTotLbl(0);
-					hasHit = true;
 				}else if(hitCounter==2){
 					playerCardFour = pickCard(arr);
 					playerSlot4.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+playerCardFour+".png"))));
@@ -256,6 +263,13 @@ public class MainGame implements ActionListener{
 			}catch (Exception e1) {
 				e1.printStackTrace();
 			}
+		}else if(e.getSource()==btnStand){
+
+			btnHit.setBounds(900,900,97,25);
+		    btnStand.setBounds(900,930,97,25);
+		    cpuTurn.setBounds(320, 675, 181, 42);
+		    //pause
+		    cpuTurn.setBounds(900, 960, 181, 42);
 		}
 	}
 	public void loadArrayList(){
@@ -275,9 +289,9 @@ public class MainGame implements ActionListener{
 		playerHand.clear();
 		cpuHand.clear();
 	}
-	
+
 	int cardIndex;
-	
+
 	private String pickCard(ArrayList<String> array){
 		cardIndex=(int)(Math.random()*arr.size());
 		return array.get(cardIndex);
@@ -294,9 +308,9 @@ public class MainGame implements ActionListener{
 			cpuHand.add(cardNumber);
 		}
 	}
-	
-	private boolean blackJack = false;
-	
+
+
+
 	private void updateTotLbl(int turn){
 		if(turn==0){
 			String total=eval.getPlayerTotal(0)+" / ";
@@ -306,12 +320,12 @@ public class MainGame implements ActionListener{
 				}
 			}
 			total = total.substring(0,total.length()-2);
-			if(!hasHit && eval.getPlayerTotal(1)==21){
+			if(eval.blackJack(0)){
 				total = "21";
-				blackJack = true;
 			}
-			System.out.println(total);
 			playerTotLbl.setText(totLbl+total);
 		}
 	}
+	
 }
+
