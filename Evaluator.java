@@ -141,10 +141,27 @@ public class Evaluator {
 		}
 		return false;
 	}
+	public int getHighest(int turn){
+		if(turn==0){
+			for(int i=4;i>=0;i--){
+				if(playerTotal[i]>0 && playerTotal[i]<=21){
+					return playerTotal[i];
+				}
+			}
+		}else if(turn==1){
+			for(int i=4;i>=0;i--){
+				if(cpuTotal[i]>0 && cpuTotal[i]<=21){
+					return cpuTotal[i];
+				}
+			}
+		}
+		return -1;
+	}
 	public int getPlayerTotal(int i){
 		return playerTotal[i];
 	}
 	public int getCpuTotal(int i){
 		return cpuTotal[i];
 	}
+	
 }
