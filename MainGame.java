@@ -46,8 +46,8 @@ public class MainGame implements ActionListener{
 	private JLabel playerTotLbl;
 	private JLabel cpuTotLbl;
 	private JLabel cpuWins;
-	private JLabel cpuHit;
-	private JLabel cpuStand;
+	private JLabel cpuHitStand;
+	private JLabel winLose;
 	private String totLbl = "Total: ";
 
 	/**
@@ -164,14 +164,14 @@ public class MainGame implements ActionListener{
 		cpuTotLbl = new JLabel("");
 		cpuTotLbl.setBounds(900, 1050, 112, 42);
 		frame.getContentPane().add(cpuTotLbl);
+		
+		winLose = new JLabel("");
+		winLose.setBounds(930, 930, 63, 22);
+		frame.getContentPane().add(winLose);
 
-		cpuHit = new JLabel("CPU hits");
-		cpuHit.setBounds(900, 1080, 56, 16);
-		frame.getContentPane().add(cpuHit);
-
-		cpuStand = new JLabel("CPU stands");
-		cpuStand.setBounds(900, 1080, 73, 22);
-		frame.getContentPane().add(cpuStand);
+		cpuHitStand = new JLabel("");
+		cpuHitStand.setBounds(900, 1080, 56, 16);
+		frame.getContentPane().add(cpuHitStand);
 
 		cpuBust = new JLabel("CPU total is over 21! You win!");
 		cpuBust.setBounds(900, 1100, 181, 25);
@@ -259,9 +259,9 @@ public class MainGame implements ActionListener{
 				cpuWins.setBounds(900, 1020, 63, 22);
 				cpuTurn.setBounds(900, 960, 181, 42);
 				cpuTotLbl.setBounds(900, 1050, 112, 42);
-				cpuHit.setBounds(900, 1080, 56, 16);
-				cpuStand.setBounds(900, 1080, 73, 22);
+				cpuHitStand.setBounds(900, 1080, 56, 16);
 				cpuBust.setBounds(900, 1100, 181, 25);
+				winLose.setBounds(930, 930, 63, 22);
 
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -309,6 +309,12 @@ public class MainGame implements ActionListener{
 					removeCard();
 					updateTotLbl(0);
 					checkBust(0);
+					if(eval.getPlayerTotal(0)<=21){
+						btnHit.setBounds(900,900,97,25);
+						btnStand.setBounds(900,930,97,25);
+						winLose.setText("You win! (You got seven cards without busting)");
+						winLose.setBounds(280, 666, 280, 22);
+					}
 				}
 			}catch (Exception e1) {
 				e1.printStackTrace();
@@ -341,6 +347,7 @@ public class MainGame implements ActionListener{
 	}
 
 	int cardIndex;
+	
 	
 
 
@@ -403,11 +410,12 @@ public class MainGame implements ActionListener{
 					cpuTotLbl.setBounds(12, 111, 112, 42);
 					Thread.sleep(2000);
 					cpuTurn.setBounds(900, 1200, 181, 42);
-					while(eval.getCpuTotal(0)<17 && !eval.blackJack(1) && !(eval.getHighest(1)>17&&eval.getHighest(1)<=21)){
-						cpuHit.setBounds(364, 49, 56, 16);
+					while((eval.caseCheck(0)||eval.caseCheck(1)||eval.caseCheck(2)||eval.caseCheck(3)||eval.caseCheck(4))  && !eval.blackJack(1) && !(eval.getHighest(1)>17&&eval.getHighest(1)<=21)){
+						cpuHitStand.setText("CPU hits");
+						cpuHitStand.setBounds(364, 49, 56, 16);
 						cpuHitCounter++;
 						Thread.sleep(2000);
-						cpuHit.setBounds(900, 1080, 56, 16);
+						cpuHitStand.setBounds(900, 1080, 56, 16);
 						Thread.sleep(500);
 						if(cpuHitCounter==1){
 							cpuCardThree = pickCard(arr);
@@ -451,24 +459,40 @@ public class MainGame implements ActionListener{
 							Thread.sleep(500);
 						}
 					}
-					if(eval.blackJack(1)||(eval.getCpuTotal(0)>=17&&eval.getCpuTotal(0)<=21)||(eval.getHighest(1)>17&&eval.getHighest(1)<=21)){
-						cpuHigh = eval.getHighest(1);
-						cpuTotLbl.setText(totLbl+cpuHigh);
-						Thread.sleep(1000);
-						cpuStand.setBounds(357, 50, 73, 22);
-						Thread.sleep(2000);
-						cpuStand.setBounds(930, 900, 73, 22);
-					}
 					if(eval.getCpuTotal(0)>21){
 						cpuTurn.setBounds(900, 960, 181, 42);
 						cpuBust.setBounds(318, 657, 181, 25);
+					}else if(cpuHitCounter==5 && eval.getCpuTotal(0)<=21){
+						winLose.setText("You lose! (CPU got seven cards without busting)");
+						winLose.setBounds(280, 49, 280, 22);
+					}else{
+						cpuHigh = eval.getHighest(1);
+						cpuTotLbl.setText(totLbl+cpuHigh);
+						Thread.sleep(1000);
+						cpuHitStand.setText("CPU stands");
+						cpuHitStand.setBounds(357, 50, 73, 22);
+						Thread.sleep(2000);
+						cpuHitStand.setBounds(930, 900, 73, 22);
+						System.out.println("total: "+playerHigh+" "+cpuHigh);
+						checkWin(playerHigh,cpuHigh);
 					}
-					System.out.println("total: "+playerHigh+" "+cpuHigh);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
 			}
 		}.start();
+	}
+	public void checkWin(int a,int b){
+		if(a>b){
+			winLose.setText("You win!");
+			winLose.setBounds(371, 666, 63, 22);
+		}else if(a<b){
+			winLose.setText("You lose!");
+			winLose.setBounds(371, 666, 63, 22);
+		}else if(a==b){
+			winLose.setText("Tie!");
+			winLose.setBounds(371, 666, 63, 22);
+		}
 	}
 	public void checkBust(final int turn){
 		new Thread(){
