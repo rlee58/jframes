@@ -264,14 +264,44 @@ public class MainGame implements ActionListener{
 				e1.printStackTrace();
 			}
 		}else if(e.getSource()==btnStand){
-
 			btnHit.setBounds(900,900,97,25);
 		    btnStand.setBounds(900,930,97,25);
-		    cpuTurn.setBounds(320, 675, 181, 42);
+			new Thread(){
+				public void run(){
+					try{
+						for(int i=1;i<3;i++){	//fixing weird thread behavior
+							Thread.sleep(500);
+							Thread.sleep(500);
+						}
+						System.out.println("e");
+						cpuTurn.setBounds(320, 675, 181, 42);
+						Thread.sleep(3000);
+						System.out.println("f");
+						//computer move
+						cpuSlot1.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+cpuCardOne+".png"))));
+						
+					}catch(Exception e){
+						 e.printStackTrace();
+					}
+				}
+			}.start();
+		
+		    //cpuTurn.setBounds(320, 675, 181, 42);
 		    //pause
-		    cpuTurn.setBounds(900, 960, 181, 42);
+		    //cpuTurn.setBounds(900, 960, 181, 42);
+		
+			try {
+			    Thread.sleep(1000);
+				cpuSlot1.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+cpuCardOne+".png"))));
+				Thread.sleep(1000);
+				cpuSlot1.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/blank.png"))));
+			} catch (Exception e1) {
+				
+				e1.printStackTrace();
+			}
 		}
 	}
+
 	public void loadArrayList(){
 		arr.clear();
 		for(int i=1;i<=13;i++){
@@ -328,4 +358,3 @@ public class MainGame implements ActionListener{
 	}
 	
 }
-
