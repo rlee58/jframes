@@ -7,6 +7,7 @@ public class Evaluator {
 	private ArrayList<Integer> cpuValue = new ArrayList<Integer>();
 	private int[] playerTotal = new int[5];
 	private int[] cpuTotal = new int[5];
+	private boolean cpuAce = false;
 	
 	public Evaluator(ArrayList<Integer> player,ArrayList<Integer> cpu){
 		cpuValue = cpu;
@@ -162,6 +163,65 @@ public class Evaluator {
 	}
 	public int getCpuTotal(int i){
 		return cpuTotal[i];
+	}
+	public boolean caseCheck(int num){
+		if(cpuTotal[1]!=0){
+			cpuAce = true;
+		}
+		if(cpuAce){
+			if(num==0){
+				if(cpuTotal[0]<=17 && cpuTotal[0]>0){
+					return true;
+				}
+			}
+			if(num==1){
+				if(cpuTotal[1]<=17 && cpuTotal[1]>0){
+					return true;
+				}
+			}
+			if(num==2){
+				if(cpuTotal[2]<=17 && cpuTotal[2]>0){
+					return true;
+				}
+			}
+			if(num==3){
+				if(cpuTotal[3]<=17 && cpuTotal[3]>0){
+					return true;
+				}
+			}
+			if(num==4){
+				if(cpuTotal[4]<=17 && cpuTotal[4]>0){
+					return true;
+				}
+			}
+		}else{
+			if(num==0){
+				if(cpuTotal[0]<17 && cpuTotal[0]>0){
+					return true;
+				}
+			}
+			if(num==1){
+				if(cpuTotal[1]<17 && cpuTotal[1]>0){
+					return true;
+				}
+			}
+			if(num==2){
+				if(cpuTotal[2]<17 && cpuTotal[2]>0){
+					return true;
+				}
+			}
+			if(num==3){
+				if(cpuTotal[3]<17 && cpuTotal[3]>0){
+					return true;
+				}
+			}
+			if(num==4){
+				if(cpuTotal[4]<17 && cpuTotal[4]>0){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 }
