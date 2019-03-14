@@ -207,8 +207,8 @@ public class MainGame implements ActionListener{
 	private int hitCounter = 0;
 	private int cpuHitCounter = 0;
 	private Evaluator eval;	
-	private int playerHigh;
-	private int cpuHigh;
+	private int playerHigh = -1;
+	private int cpuHigh = -1;
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btnNewGame){
@@ -315,9 +315,9 @@ public class MainGame implements ActionListener{
 			}
 		}else if(e.getSource()==btnStand){
 			//hide start game btn
-			String high = eval.getHighest()+"";
+			String high = eval.getHighest(0)+"";
 			playerTotLbl.setText(totLbl+high);
-			playerHigh = eval.getHighest();
+			playerHigh = eval.getHighest(0);
 			comRun();
 		}
 	}
@@ -402,7 +402,8 @@ public class MainGame implements ActionListener{
 					updateTotLbl(1);
 					cpuTotLbl.setBounds(12, 111, 112, 42);
 					Thread.sleep(2000);
-					while(eval.getCpuTotal(0)<17 && !eval.blackJack(1)){
+					cpuTurn.setBounds(900, 1200, 181, 42);
+					while(eval.getCpuTotal(0)<17 && !eval.blackJack(1) && !(eval.getHighest(1)>17&&eval.getHighest(1)<=21)){
 						cpuHit.setBounds(364, 49, 56, 16);
 						cpuHitCounter++;
 						Thread.sleep(2000);
@@ -415,6 +416,7 @@ public class MainGame implements ActionListener{
 							eval.updateValue(cpuHand, 1);
 							removeCard();
 							updateTotLbl(1);
+							Thread.sleep(500);
 						}else if(cpuHitCounter==2){
 							cpuCardFour = pickCard(arr);
 							cpuSlot4.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+cpuCardFour+".png"))));
@@ -422,6 +424,7 @@ public class MainGame implements ActionListener{
 							eval.updateValue(cpuHand, 1);
 							removeCard();
 							updateTotLbl(1);
+							Thread.sleep(500);
 						}else if(cpuHitCounter==3){
 							cpuCardFive = pickCard(arr);
 							cpuSlot5.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+cpuCardFive+".png"))));
@@ -429,6 +432,7 @@ public class MainGame implements ActionListener{
 							eval.updateValue(cpuHand, 1);
 							removeCard();
 							updateTotLbl(1);
+							Thread.sleep(500);
 						}else if(cpuHitCounter==4){
 							cpuCardSix = pickCard(arr);
 							cpuSlot6.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+cpuCardSix+".png"))));
@@ -436,6 +440,7 @@ public class MainGame implements ActionListener{
 							eval.updateValue(cpuHand, 1);
 							removeCard();
 							updateTotLbl(1);
+							Thread.sleep(500);
 						}else if(cpuHitCounter==5){
 							cpuCardSeven = pickCard(arr);
 							cpuSlot7.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+cpuCardSeven+".png"))));
@@ -443,16 +448,22 @@ public class MainGame implements ActionListener{
 							eval.updateValue(cpuHand, 1);
 							removeCard();
 							updateTotLbl(1);
+							Thread.sleep(500);
 						}
 					}
-					if(eval.blackJack(1)||(eval.getCpuTotal(0)>=17&&eval.getCpuTotal(0)<=21)){
-						cpuStand.setBounds(357, 50, 73, 22);
+					if(eval.blackJack(1)||(eval.getCpuTotal(0)>=17&&eval.getCpuTotal(0)<=21)||(eval.getHighest(1)>17&&eval.getHighest(1)<=21)){
+						cpuHigh = eval.getHighest(1);
+						cpuTotLbl.setText(totLbl+cpuHigh);
 						Thread.sleep(1000);
+						cpuStand.setBounds(357, 50, 73, 22);
+						Thread.sleep(2000);
+						cpuStand.setBounds(930, 900, 73, 22);
 					}
 					if(eval.getCpuTotal(0)>21){
 						cpuTurn.setBounds(900, 960, 181, 42);
 						cpuBust.setBounds(318, 657, 181, 25);
 					}
+					System.out.println("total: "+playerHigh+" "+cpuHigh);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
