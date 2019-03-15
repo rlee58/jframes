@@ -103,15 +103,6 @@ public class Evaluator {
 		if(cpuAceCount>=1){
 			cpuTotal[1]=cpuCount+10;
 		}
-		//check
-		for(int i=0;i<5;i++){
-			System.out.print(cpuTotal[i]+" ");
-		}
-		System.out.println("");
-		for(int i=0;i<5;i++){
-			System.out.print(playerTotal[i]+" ");
-		}
-		System.out.println("");
 	}
 	public void updateValue(ArrayList<Integer> arr,int turn){
 		for(int i=0;i<arr.size();i++){
