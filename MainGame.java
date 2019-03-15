@@ -22,10 +22,11 @@ import javax.swing.SwingUtilities;
 
 public class MainGame implements ActionListener{
 
-	private JFrame frame;
+	private JFrame frame1;
 	private JButton btnNewGame;
 	private JButton btnHit;
 	private JButton btnStand;
+	private JButton mainMenuBtn;
 	private JLabel playerSlot1;
 	private JLabel playerSlot2;
 	private JLabel playerSlot3;
@@ -62,120 +63,125 @@ public class MainGame implements ActionListener{
 	 */
 
 	private void initialize() {
-		frame = new JFrame("Blackjack - New Game");
-		frame.setBounds(100, 100, 800, 800);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		frame.setResizable(false);
+		frame1 = new JFrame("Blackjack - New Game");
+		frame1.setBounds(100, 100, 800, 800);
+		frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame1.getContentPane().setLayout(null);
+		frame1.setResizable(false);
 
 		JTextPane gamePanel = new JTextPane();
 		gamePanel.setBounds(0, 0, 782, 22);
-		frame.getContentPane().add(gamePanel);
+		frame1.getContentPane().add(gamePanel);
 
-		frame.setVisible(true);
+		frame1.setVisible(true);
+		
+		mainMenuBtn = new JButton("Main Menu");
+		mainMenuBtn.setBounds(649, 42, 97, 25);
+		frame1.getContentPane().add(mainMenuBtn);
+		mainMenuBtn.addActionListener(this);
 
 		btnNewGame = new JButton("New Game");
 		btnNewGame.setBounds(340, 340, 97, 25);
-		frame.getContentPane().add(btnNewGame);
+		frame1.getContentPane().add(btnNewGame);
 		btnNewGame.addActionListener(this);
 
 		btnHit = new JButton("Hit");
 		btnHit.setBounds(900, 900, 97, 25);
-		frame.getContentPane().add(btnHit);
+		frame1.getContentPane().add(btnHit);
 		btnHit.addActionListener(this);
 
 		btnStand = new JButton("Stand");
 		btnStand.setBounds(900, 930, 97, 25);
-		frame.getContentPane().add(btnStand);
+		frame1.getContentPane().add(btnStand);
 		btnStand.addActionListener(this);
 
 		playerSlot1 = new JLabel("");
 		playerSlot1.setBounds(340,400,95,130);
-		frame.getContentPane().add(playerSlot1);
+		frame1.getContentPane().add(playerSlot1);
 
 		playerSlot2= new JLabel("");
 		playerSlot2.setBounds(440, 400, 95, 130);
-		frame.getContentPane().add(playerSlot2);
+		frame1.getContentPane().add(playerSlot2);
 
 		playerSlot3 = new JLabel("");
 		playerSlot3.setBounds(240, 400, 95, 130);
-		frame.getContentPane().add(playerSlot3);
+		frame1.getContentPane().add(playerSlot3);
 
 		playerSlot4 = new JLabel("");
 		playerSlot4.setBounds(540, 400, 95, 130);
-		frame.getContentPane().add(playerSlot4);
+		frame1.getContentPane().add(playerSlot4);
 
 		playerSlot5 = new JLabel("");
 		playerSlot5.setBounds(140, 400, 95, 130);
-		frame.getContentPane().add(playerSlot5);
+		frame1.getContentPane().add(playerSlot5);
 
 		playerSlot6 = new JLabel("");
 		playerSlot6.setBounds(640, 400, 95, 130);
-		frame.getContentPane().add(playerSlot6);
+		frame1.getContentPane().add(playerSlot6);
 
 		playerSlot7 = new JLabel("");
 		playerSlot7.setBounds(40, 400, 95, 130);
-		frame.getContentPane().add(playerSlot7);
+		frame1.getContentPane().add(playerSlot7);
 
 		cpuSlot1 = new JLabel("");
 		cpuSlot1.setBounds(340, 175, 90, 130);
-		frame.getContentPane().add(cpuSlot1);
+		frame1.getContentPane().add(cpuSlot1);
 
 		cpuSlot2 = new JLabel("");
 		cpuSlot2.setBounds(440, 175, 90, 130);
-		frame.getContentPane().add(cpuSlot2);
+		frame1.getContentPane().add(cpuSlot2);
 
 		cpuSlot3 = new JLabel("");
 		cpuSlot3.setBounds(240, 175, 95, 130);
-		frame.getContentPane().add(cpuSlot3);
+		frame1.getContentPane().add(cpuSlot3);
 
 		cpuSlot4 = new JLabel("");
 		cpuSlot4.setBounds(540, 175, 95, 130);
-		frame.getContentPane().add(cpuSlot4);
+		frame1.getContentPane().add(cpuSlot4);
 
 		cpuSlot5 = new JLabel("");
 		cpuSlot5.setBounds(140, 175, 95, 130);
-		frame.getContentPane().add(cpuSlot5);
+		frame1.getContentPane().add(cpuSlot5);
 
 		cpuSlot6 = new JLabel("");
 		cpuSlot6.setBounds(640, 175, 95, 130);
-		frame.getContentPane().add(cpuSlot6);
+		frame1.getContentPane().add(cpuSlot6);
 
 		cpuSlot7 = new JLabel("");
 		cpuSlot7.setBounds(40, 175, 95, 130);
-		frame.getContentPane().add(cpuSlot7);
+		frame1.getContentPane().add(cpuSlot7);
 
 		playerTotLbl = new JLabel();
 		playerTotLbl.setBounds(12, 560, 112, 42);
-		frame.getContentPane().add(playerTotLbl);
+		frame1.getContentPane().add(playerTotLbl);
 
 		cpuTurn = new JLabel("You chose to stand, CPU's turn");
 		cpuTurn.setBounds(900, 960, 181, 42);
-		frame.getContentPane().add(cpuTurn);
+		frame1.getContentPane().add(cpuTurn);
 
 		bust = new JLabel("Your total is over 21! Bust!");
 		bust.setBounds(900, 990, 164, 25);
-		frame.getContentPane().add(bust);
+		frame1.getContentPane().add(bust);
 
 		cpuWins = new JLabel("CPU wins!");
 		cpuWins.setBounds(900, 1020, 63, 22);
-		frame.getContentPane().add(cpuWins);
+		frame1.getContentPane().add(cpuWins);
 
 		cpuTotLbl = new JLabel("");
 		cpuTotLbl.setBounds(900, 1050, 112, 42);
-		frame.getContentPane().add(cpuTotLbl);
+		frame1.getContentPane().add(cpuTotLbl);
 		
 		winLose = new JLabel("");
 		winLose.setBounds(930, 930, 63, 22);
-		frame.getContentPane().add(winLose);
+		frame1.getContentPane().add(winLose);
 
 		cpuHitStand = new JLabel("");
 		cpuHitStand.setBounds(900, 1080, 56, 16);
-		frame.getContentPane().add(cpuHitStand);
+		frame1.getContentPane().add(cpuHitStand);
 
 		cpuBust = new JLabel("CPU total is over 21! You win!");
 		cpuBust.setBounds(900, 1100, 181, 25);
-		frame.getContentPane().add(cpuBust);
+		frame1.getContentPane().add(cpuBust);
 		
 		back();
 
@@ -183,7 +189,7 @@ public class MainGame implements ActionListener{
 	public void back(){
 		GameTable one = new GameTable();
 		one.setBounds(0, 13, 782, 731);
-		frame.getContentPane().add(one);
+		frame1.getContentPane().add(one);
 	}
 
 
@@ -270,6 +276,7 @@ public class MainGame implements ActionListener{
 			hitCounter++;
 			try{
 				if(hitCounter==1){
+					btnNewGame.setBounds(1100, 340, 97, 25);
 					playerCardThree = pickCard(arr);
 					playerSlot3.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+playerCardThree+".png"))));
 					convertCard(playerCardThree,0);
@@ -320,11 +327,17 @@ public class MainGame implements ActionListener{
 				e1.printStackTrace();
 			}
 		}else if(e.getSource()==btnStand){
-			//hide start game btn
+			btnNewGame.setBounds(1000,1000,97,25);
 			String high = eval.getHighest(0)+"";
 			playerTotLbl.setText(totLbl+high);
 			playerHigh = eval.getHighest(0);
 			comRun();
+		}else if(e.getSource()==mainMenuBtn){
+			frame1.setVisible(false);
+			frame1.dispose();
+			BlackJack3 screen = new BlackJack3();
+			screen.frame.setVisible(true);
+			
 		}
 	}
 
@@ -401,10 +414,8 @@ public class MainGame implements ActionListener{
 				try{
 					btnHit.setBounds(900,900,97,25);
 					btnStand.setBounds(900,930,97,25);
-					System.out.println("e");//
 					cpuTurn.setBounds(320, 675, 181, 42);
 					Thread.sleep(3000);
-					System.out.println("f");//
 					cpuSlot1.setIcon(new ImageIcon(ImageIO.read( new File("src/graphics/"+cpuCardOne+".png"))));
 					updateTotLbl(1);
 					cpuTotLbl.setBounds(12, 111, 112, 42);
@@ -463,7 +474,7 @@ public class MainGame implements ActionListener{
 						cpuTurn.setBounds(900, 960, 181, 42);
 						cpuBust.setBounds(318, 657, 181, 25);
 					}else if(cpuHitCounter==5 && eval.getCpuTotal(0)<=21){
-						winLose.setText("You lose! (CPU got seven cards without busting)");
+						winLose.setText("CPU wins! (CPU got seven cards without busting)");
 						winLose.setBounds(280, 49, 280, 22);
 					}else{
 						cpuHigh = eval.getHighest(1);
@@ -473,9 +484,9 @@ public class MainGame implements ActionListener{
 						cpuHitStand.setBounds(357, 50, 73, 22);
 						Thread.sleep(2000);
 						cpuHitStand.setBounds(930, 900, 73, 22);
-						System.out.println("total: "+playerHigh+" "+cpuHigh);
 						checkWin(playerHigh,cpuHigh);
 					}
+					btnNewGame.setBounds(340, 340, 97, 25);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -487,7 +498,7 @@ public class MainGame implements ActionListener{
 			winLose.setText("You win!");
 			winLose.setBounds(371, 666, 63, 22);
 		}else if(a<b){
-			winLose.setText("You lose!");
+			winLose.setText("CPU wins!");
 			winLose.setBounds(371, 666, 63, 22);
 		}else if(a==b){
 			winLose.setText("Tie!");
@@ -516,5 +527,4 @@ public class MainGame implements ActionListener{
 			}
 		}.start();
 	}
-
 }
